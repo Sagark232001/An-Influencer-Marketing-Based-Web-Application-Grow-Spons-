@@ -1,0 +1,39 @@
+<style>
+    .side-right-bar {
+        height: 100vh;
+        position: fixed;
+        right: 0;
+        width: 20%;
+    }
+</style>
+<div class="card side-right-bar mt-5 pt-3">
+    <div class="card-body">
+        <a href="{% url 'influencerPost' %}" class="btn btn-outline-primary w-100 mt-3">
+            Add Post
+        </a>
+
+        <hr class="my-3" style="color: #e2e2e2;">
+
+        <h6 class="border-bottom pb-2 mb-0">Suggestions</h6>
+        {% for inf in all_influencer %}
+        <div class="d-flex text-muted pt-3">
+
+            <div class="pb-3 mb-0 small lh-sm border-bottom w-100 d-flex justify-content-between">
+                <div class="d-flex">
+                    <img src="{{inf.profileImg.url}}" class="me-3" width="32" height="32" alt="">
+                    <div>
+                        <strong class="text-gray-dark">{{inf.influencer_id.username}}</strong>
+                        <span class="d-block">@{{inf.influencer_id.username}}</span>
+                    </div>
+                </div>
+                <!-- <a href="#">Follow</a> -->
+            </div>
+        </div>
+        {% endfor %}
+
+        <small class="d-block text-end mt-3">
+            <a href="#">All suggestions</a>
+        </small>
+    </div>
+
+</div>
