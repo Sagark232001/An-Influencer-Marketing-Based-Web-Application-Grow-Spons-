@@ -1,0 +1,95 @@
+{% extends "base.html"%}
+{% load static %}
+{% block title%}Profile{% endblock%}
+{% block content %}
+{% include "profile/profile_nav.html" %}
+<style>
+    .container {
+        width: 66%;
+        position: absolute;
+        margin-left: 30%;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: 2fr 2fr;
+        margin-left: 26%;
+        margin-bottom: 13px;
+    }
+</style>
+
+<div class="container mt-5 pt-5">
+    <div class="card card-body shadow">
+        <h4 class="text-center mb-5">Personal Details</h4>
+        <form action="{% url 'edit_profile' %}" method="post">
+            {% csrf_token %}
+            <div class="grid-container">
+                <div class="head-field">
+                    <strong>Field</strong>
+                </div>
+                <div class="data-field">
+                    {{influencer_form.field}}
+                </div>
+            </div>
+            <div class="grid-container">
+                <div class="head-field">
+                    <strong>Date Of Birth</strong>
+                </div>
+                <div class="data-field">
+                    {{influencer_form.dob}}
+                </div>
+            </div>
+            <div class="grid-container">
+                <div class="head-field">
+                    <strong>Phone Number</strong>
+                </div>
+                <div class="data-field">
+                    {{influencer_form.phone_no}}
+                </div>
+            </div>
+            <div class="grid-container">
+                <div class="head-field">
+                    <strong>Bio</strong>
+                </div>
+                <div class="data-field">
+                    {{influencer_form.bio}}
+                </div>
+            </div>
+            <div class="grid-container">
+                <div class="head-field">
+                    <strong>Location</strong>
+                </div>
+                <div class="data-field">
+                    {{influencer_form.location}}
+                </div>
+            </div>
+            <div style="display: none;">
+                {{influencer_form.pancard}}
+                {{influencer_form.mode_of_transaction}}
+                {{influencer_form.bank_name}}
+                {{influencer_form.IFSC_code}}
+                {{influencer_form.account_no}}
+                {{influencer_form.is_verified}}
+                {{influencer_form.influencer_id}}
+            </div>
+            <div class="mb-3 mt-5 d-flex justify-content-center">
+                <button class="btn btn-info w-25">Edit</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    $('input').addClass('form-control')
+    $('select').addClass('form-control')
+    $('textarea').addClass('form-control')
+    $(document).ready(function () {
+        $("#id_pancard").val('NA')
+        $("#id_bank_name").val('NA')
+        $("#id_IFSC_code").val('NA')
+        $("#id_account_no").val('NA')
+        $("#id_influencer_id").val("{{user.id}}")
+    })
+</script>
+{% endblock%}
