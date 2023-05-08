@@ -1,0 +1,55 @@
+{% extends "dashboard_base.html"%}
+{% load static %}
+{% load custom_tags %}
+{% block title%}Display{% endblock%}
+{% block content %}
+
+<button id="modal-btn-custom" style="display: none;" data-bs-toggle="modal" data-bs-target="#ffff">
+click me
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="ffff" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="fffflabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="fffflabel">Add Work After Completion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               
+                <form action="{% url 'display_modal' work.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_content_link">Link of Work</label>
+
+                        {{work_form.content_link}}
+                    </div>
+                    <div style="display: none;">
+                        {{work_form.is_accepted}}
+                        {{work_form.influencer}}
+                        {{work_form.post}}
+                     {{work_form.sponsor}}
+                    </div>
+                    <div class="mb-3">
+                        <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    $('input').addClass('form-control')
+    $('select').addClass('form-control')
+    $(document).ready(()=>{
+        $('#modal-btn-custom').click()
+    })
+</script>
+{% endblock%}

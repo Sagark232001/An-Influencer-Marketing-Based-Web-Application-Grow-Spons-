@@ -1,0 +1,59 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark grey-bgcolor">
+    <div class="container-fluid">
+        <a class="navbar-brand my-0 py-0 ps-3" href="{% url 'home' %}">
+            <img src="{% static 'img/logo.png' %}" width="100" height="50" alt="">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 w-100">
+                <div class="mx-auto" style="width: 50%;">
+                    <form action="" method="GET">
+                        <div class="input-group" id="search-box">
+                            <div class="input-group-prepend">
+                                <button class="btn btn-outline-secondary light-grey-bgcolor" id="search-btn"
+                                    type="submit" style="border-radius: 40px 0px 0px 40px;"><i
+                                        class="fas fa-search"></i></button>
+                            </div>
+                            <input type="text" name="to_search"
+                                style="border: none;border-radius: 0px 40px 40px 0px;"
+                                class="form-control light-grey-bgcolor" placeholder="Search for Profile"
+                                aria-label="" aria-describedby="basic-addon1">
+
+                        </div>
+                    </form>
+                </div>
+
+
+            </ul>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ">
+                {% if request.user.is_authenticated %}
+
+                    {% if request.user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'dashboardCmp' %}">Dashboard</a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{% url 'dashboardInf' %}">Dashboard</a>
+                    </li>
+                    {% endif %}
+                <!-- <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>
+                </li> -->
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Login</a>
+                </li>
+                {% endif %}
+
+            </ul>
+
+        </div>
+    </div>
+</nav>

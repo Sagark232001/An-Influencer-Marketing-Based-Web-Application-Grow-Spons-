@@ -1,0 +1,83 @@
+{% extends "dashboard_base.html"%}
+{% load static %}
+{% load custom_tags %}
+{% block title%}Dashboard{% endblock%}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/post.css' %}">
+
+<div class="upper-filter mt-5" style="display: grid;grid-template-columns: 1fr 4fr;text-align: center;">
+    <div>
+        <h5>Feeds</h5>
+    </div>
+    <div class="filter-menu d-flex justify-content-end">
+        <p class="me-3 grey-color" style="cursor: pointer;text-decoration: none;" id="all_data">All</p>
+        {% for field in nav_fields %}
+        <p class="me-3 grey-color" style="cursor: pointer;text-decoration: none;" id='{{field}}'>{{field}}</p>
+        {% endfor %}
+
+
+    </div>
+</div>
+<div class="influencer-data">
+    <div class="d-flex justify-content-center">
+        <div class="spinner-grow text-dark ajaxLoader mt-5" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-3" id="filter_data_post">
+        {% for post in posts %}
+
+        {% if post.influencer.influencer_id.id != request.user.id %}
+        <div class="col-4">
+
+            <div class="wrapper">
+                <div class="post" style="background: url('{{post.post_img.url}}');background-size: cover;">
+                    <div class="overlay">
+
+                        <form action="" method="post" id="save_post_form">
+                            {% csrf_token %}
+                            <span class="savepost">
+                                <button type="button" id="savepost-btn-{{post.id}}" onclick="savePost('{{post.id}}')"><i
+                                        class="fas fa-bookmark"></i></button>
+
+                                <button type="button" id="remove-saved-btn-{{post.id}}"
+                                    onclick="removeSavedPost('{{post.id}}')"
+                                    style="color: black; background-color: white;"><i class="fas fa-bookmark"></i>
+                                </button>
+                            </span>
+                        </form>
+                    </div>
+                    <a href="{% url 'viewinf' post.id %}" class="about d-flex flex-column"
+                        style="text-decoration: none; color: white;margin-top: -58px;text-align: center;">
+                        <strong>@{{post.influencer.influencer_id.username}}</strong> <span>{{post.title}} | {{post.field}}</span>
+
+                    </a>
+                </div>
+            </div>
+
+
+
+        </div>
+        {% endif %}
+
+        {%endfor%}
+    </div>
+</div>
+
+
+
+
+<script>
+    let nav_fields = {{ nav_fields| safe}};
+    const url_path = "{% url 'dashboardFilter' %}";
+    let saved_post_list = {{ saved_post_ls }};
+    let posts = {{ posts| post_id_list | safe}};
+    // console.log(saved_post_list)
+
+
+
+    
+</script>
+<script src="{% static 'js/dashboard.js' %}"></script>
+
+{% endblock%}

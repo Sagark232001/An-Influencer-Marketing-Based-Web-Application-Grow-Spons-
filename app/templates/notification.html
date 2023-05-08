@@ -1,0 +1,27 @@
+{% extends "dashboard_base.html"%}
+{% load static %}
+{% load custom_tags %}
+{% block title%}Notification{% endblock%}
+{% block content %}
+
+<div class="mt-5">
+    <h4 class="mb-3 text-center">Notifications</h4>
+    {% for work in works %}
+    <div class="card card-body mb-3 shadow-sm" style="cursor: pointer;" onclick=location.href="{% url 'display_modal' work.id %}">
+        <div class="row">
+            <div class="col-8"><strong>{{work.post.title}}</strong> - {{work.sponsor.sponsor_id.first_name}}</div>
+            <div class="col-4">
+                {% if work.content_link == None %}
+                <span style="color: green;">work pending..</span>
+                {% else %}
+                <span style="color: #af1d0a;">completed</span>
+                {% endif %}
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+
+{% endblock%}
