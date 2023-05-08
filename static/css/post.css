@@ -1,0 +1,72 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 46vh;
+}
+
+.post {
+  position: relative;
+  width: 300px;
+  height: 287px;
+  background-size: cover;
+  cursor: pointer;
+  border: 12px;
+  border-radius: 10px;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transition: all 1s;
+  border-radius: 10px;
+}
+
+.post:hover .overlay {
+  opacity: 1;
+}
+
+.savepost {
+  display: flex;
+  top: 15px;
+  left: 20px;
+  position: absolute;
+  text-align: center;
+  justify-content: center;
+}
+
+.savepost button {
+  width: 25px;
+  height: 25px;
+  background: none;
+  cursor: pointer;
+  border: 1px solid #eee;
+  color: #fff;
+  border-radius: 5px;
+  transition: all 1s;
+}
+
+.overlay .about {
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  top: 40%;
+  color: #fff;
+  flex: column;
+}
+
+.filter-menu {
+  overflow-x: scroll;
+}
+
+.filter-menu::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-menu p:hover {
+  color: #000;
+  font-weight: 500;
+}

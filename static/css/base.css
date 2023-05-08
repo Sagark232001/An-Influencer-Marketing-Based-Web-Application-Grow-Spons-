@@ -1,0 +1,56 @@
+/* color class */
+.grey-color {
+  color: #222831 !important;
+}
+.light-grey-color {
+  color: #393e46 !important;
+}
+.blue-color {
+  color: #00adb5 !important;
+}
+.light-color {
+  color: #eeeeee !important;
+}
+
+/* background color class */
+.grey-bgcolor {
+  background-color: #222831 !important;
+}
+.light-grey-bgcolor {
+  background-color: #393e46 !important;
+}
+.blue-bgcolor {
+  background-color: #00adb5 !important;
+}
+.light-bgcolor {
+  background-color: #eeeeee !important;
+}
+
+.form-control:focus {
+  box-shadow: none !important;
+  border-color: #565758 !important;
+}
+
+.form-select:focus {
+  box-shadow: none !important;
+  border-color: #565758 !important;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #eeeeee;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #393e46;
+}
+
+
+.content {
+  width: 56%;
+  position: absolute;
+  margin-left: 22%;
+}
