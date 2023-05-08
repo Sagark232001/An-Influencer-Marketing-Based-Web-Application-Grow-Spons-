@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+profile
+{% endblock title %}
+{% block content %}
+
+<style>
+  input,
+  select,
+  textarea {
+    background-color: #eee !important;
+  }
+
+  #profile-img-in:hover {
+    background-color: #cfcfcfce !important;
+  }
+</style>
+
+<div class="pt-5 mt-5" style="height: 100vh;">
+
+  <div class="card card-body w-50 grey-color mx-auto px-5" style="border: 2px groove #eee">
+    <form action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div id="personal-details">
+        <h3 class="text-center my-3">Personal Details</h3>
+        <div class="mb-3" style="display: none;">
+          {{inf_form.influencer_id}}
+        </div>
+        <div class="mb-3 form-floating">
+          {{inf_form.field}}
+          <label for="id_field">Field of interest</label>
+        </div>
+        <div class=" mb-3">
+          <!-- <input type="text" value="choose profile image" id="profile-img-in" readonly style="cursor: pointer;" onclick="fileTrig()"> -->
+          <label for="id_profileImg">Profile Image</label>
+          {{inf_form.profileImg}}
+
+        </div>
+        <div class="form-floating mb-3">
+          {{inf_form.dob}}
+          <label for="id_dob">Date Of Birth</label>
+        </div>
+        <div class="form-floating mb-3">
+          {{inf_form.bio}}
+          <label for="id_dob">Bio</label>
+        </div>
+        <div class="form-floating mb-3">
+          {{inf_form.phone_no}}
+          <label for="id_phone_no">Phone Number</label>
+        </div>
+        <div class="form-floating mb-3">
+          {{inf_form.location}}
+          <label for="id_location">Location</label>
+        </div>
+
+        <div class="mb-3 mt-5 d-flex justify-content-center">
+          <button type="button" class="btn btn-outline-primary w-50" id="next">Next</button>
+        </div>
+      </div>
+
+      <div id="social-media-details" style="display: none;">
+        <h3 class="text-center my-3">Social Media Handles</h3>
+
+        <div class="form-floating mb-4" style="display: none;">
+          {{inf_form.is_verified}}
+        </div>
+        <div class="row">
+          {% for i in for_loop %}
+          <div class="col-4 my-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{i}}"
+            style="text-align: center;cursor: pointer;">
+            <div class="py-5 border light-bgcolor" id="div{{i}}"><i class="fas fa-plus" id="plus{{i}}"></i></div>
+          </div>
+          {% endfor %}
+
+        </div>
+
+        <div style="display: none;">
+          {{inf_form.pancard}}
+          {{inf_form.mode_of_transaction}}
+          {{inf_form.bank_name}}
+          {{inf_form.IFSC_code}}
+          {{inf_form.account_no}}
+          <input type="text" id="social_media_list" name="social_media_list">
+        </div>
+
+        <div class="mb-3 mt-5 d-flex justify-content-center">
+          <button type="button" class="btn btn-outline-primary w-25 me-3" id="prev">Back</button>
+          <button type="submit" class="btn btn-outline-primary w-25">Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>
+
+
+
+
+<!-- modal -->
+
+{% for i in for_loop %}
+<div class="modal fade" id="staticBackdrop{{i}}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+  aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" style="background-color: #eee;">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="post" enctype="multipart/form-data">
+          <div class="form-floating mb-3">
+            <select class="form-select" id="social_media{{i}}" name="social_media{{i}}"
+              aria-label="Floating label select example">
+              <option selected hidden></option>
+              <option value="youtube">Youtube</option>
+              <option value="instagram">Instagram</option>
+              <option value="twitter">Twitter</option>
+              <option value="facebook">Facebook</option>
+              <option value="other">Other</option>
+            </select>
+            <label for="social_media{{i}}">Select Social Media Handle</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="follower{{i}}" name="follower{{i}}" placeholder="follower">
+            <label for="follower{{i}}">Followers</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="url{{i}}" name="url{{i}}" placeholder="url">
+            <label for="url{{i}}">URL</label>
+          </div>
+
+
+          <div class="mb-3 d-flex justify-content-center">
+            <button type="button" id="btn{{i}}" class="btn btn-outline-primary w-50">
+              Add
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+<script>
+  $("input").addClass("form-control")
+  $("input").prop("placeholder", "search")
+  $("select").addClass("form-select")
+  $("textarea").addClass("form-control")
+  $("textarea").prop("placeholder", "abc")
+  let options = $("option")
+  for (let index = 0; index < options.length; index++) {
+    let element = options[index];
+    if (!element.value) {
+      element.hidden = true
+      element.innerText = 'choose'
+    }
+
+  }
+  // $("#id_profileImg").hide()
+
+
+  $(document).ready(function () {
+    $("#id_pancard").val('NA')
+    $("#id_bank_name").val('NA')
+    $("#id_IFSC_code").val('NA')
+    $("#id_account_no").val('NA')
+    $("#id_influencer_id").val("{{user.id}}")
+    $("#next").click(function () {
+      $("#personal-details").hide()
+      $("#social-media-details").show()
+    })
+    $("#prev").click(function () {
+      $("#personal-details").show()
+      $("#social-media-details").hide()
+    })
+    let social_handle_obj = {}
+
+    for (let index = 0; index < 6; index++) {
+      $("#btn" + index).click(function (e) {
+        let social_media = "<p><strong>" + $("#social_media" + index).val().toUpperCase() + "</strong></p>"
+        let follower = "<p>" + $("#follower" + index).val() + " followers</p>"
+
+        $("#plus" + index).hide()
+        $("#div" + index).html(social_media + follower)
+        $("#div" + index).removeClass('py-5')
+        $("#div" + index).addClass('pt-3 pb-4')
+        social_handle_obj[index] = {
+          "social_media": $("#social_media" + index).val(),
+          "follower": $("#follower" + index).val(),
+          "url": $("#url" + index).val()
+        }
+
+        $("#social_media_list").val(JSON.stringify(social_handle_obj))
+        console.log(social_handle_obj)
+        $(".btn-close").trigger("click")
+      })
+
+    }
+
+
+  })
+
+
+  $("#id_dob").attr('type', 'date')
+
+</script>
+{% endblock content %}
