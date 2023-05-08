@@ -1,0 +1,67 @@
+{% load custom_tags %}
+{% for post in posts %}
+
+        {% if post.influencer.influencer_id.id != id %}
+        <div class="col-4">
+            <div class="wrapper">
+                <div class="post" style="background: url('{{post.post_img.url}}');background-size: cover;">
+                    <div class="overlay">
+
+                        <form action="" method="post" id="save_post_form">
+                            {% csrf_token %}
+                            <span class="savepost">
+                                <button type="button" id="savepost-btn-{{post.id}}" onclick="savePost('{{post.id}}')"><i
+                                        class="fas fa-bookmark"></i></button>
+
+                                <button type="button" id="remove-saved-btn-{{post.id}}"
+                                    onclick="removeSavedPost('{{post.id}}')"
+                                    style="color: black; background-color: white;"><i class="fas fa-bookmark"></i>
+                                </button>
+                            </span>
+                        </form>
+                    </div>
+                    <a href="{% url 'viewinf' post.id %}" class="about d-flex flex-column"
+                        style="text-decoration: none; color: white;margin-top: -58px;text-align: center;">
+                        <strong>@{{post.influencer.influencer_id.username}}</strong> <span>{{post.title}} | {{post.field}}</span>
+
+                    </a>
+                </div>
+            </div>
+
+
+
+        </div>
+        {% endif %}
+
+        {%endfor%}
+<script>
+    $(document).ready(function () {
+        let fl_posts = {{ posts| post_id_list | safe}};
+        let fl_saved_post_list = {{ saved_post_ls }};
+        for (let index = 0; index < fl_posts.length; index++) {
+            let element = fl_posts[index];
+            if (fl_saved_post_list.includes(element)) {
+                // saved
+                $('#savepost-btn-' + element).hide()
+                $('#remove-saved-btn-' + element).show()
+
+            }
+            else {
+                // not saved
+                $('#savepost-btn-' + element).show()
+                $('#remove-saved-btn-' + element).hide()
+            }
+            $('#savepost-btn-' + element).click(function () {
+                $('#savepost-btn-' + element).hide()
+                $('#remove-saved-btn-' + element).show()
+            })
+            $('#remove-saved-btn-' + element).click(function () {
+                $('#savepost-btn-' + element).show()
+                $('#remove-saved-btn-' + element).hide()
+            })
+
+        }
+    });
+
+
+</script>
