@@ -1,0 +1,245 @@
+{% extends "authentication/base.html" %}
+{% load static %}
+{% block title %}
+SignUp
+{% endblock title %}
+{% block content %}
+<style>
+    #signup {
+        display: grid;
+        grid-template-columns: 6fr 4fr;
+    }
+
+    .item {
+        height: 100vh;
+
+    }
+
+    .card {
+        border: none;
+    }
+
+    ::selection {
+        background: rgba(23, 162, 184, 0.3);
+    }
+
+    .wrapper {
+        max-width: 700px;
+        width: 100%;
+        margin-top: 10px;
+        margin-right: auto;
+        margin-left: auto;
+        padding: 30px 30px;
+        border-radius: 5px;
+        background: #fff;
+        /* box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1); */
+    }
+
+    .wrapper header {
+        font-size: 30px;
+        font-weight: 600;
+        padding-bottom: 20px;
+    }
+
+    .wrapper nav {
+        position: relative;
+        justify-content: center;
+        height: 50px;
+        display: flex;
+        align-items: center;
+    }
+
+    .wrapper nav label {
+        display: block;
+        height: 100%;
+        width: 100%;
+        text-align: center;
+        line-height: 50px;
+        cursor: pointer;
+        position: relative;
+        z-index: 1;
+        color: #000;
+        font-size: 17px;
+        border-radius: 5px;
+        margin: 0 5px;
+        transition: all 0.3s ease;
+    }
+
+    .wrapper nav label:hover {
+        background: #1816163a
+    }
+
+    #influencer:checked~nav label.influencer,
+    #company:checked~nav label.company {
+        color: #fff;
+    }
+
+
+
+    nav .slider {
+        position: absolute;
+        height: 100%;
+        width: 50%;
+        left: 0;
+        bottom: 0;
+        z-index: 0;
+        border-radius: 5px;
+        background: #222831;
+        transition: all 0.3s ease;
+    }
+
+    input[type="radio"] {
+        display: none;
+    }
+
+    #company:checked~nav .slider {
+        left: 50%;
+    }
+
+    section .nav-box {
+        display: none;
+        background: #fff;
+    }
+
+    #influencer:checked~section .nav-box-1,
+    #company:checked~section .nav-box-2 {
+        display: block;
+    }
+
+    section .nav-box .title {
+        font-size: 21px;
+        font-weight: 500;
+        margin: 30px 0 10px 0;
+    }
+
+    section .nav-box p {
+        text-align: justify;
+    }
+</style>
+
+<div id="signup">
+    <div class="item">
+        <div class="wrapper mt-4">
+
+            <input type="radio" name="slider" checked id="influencer">
+            <input type="radio" name="slider" id="company">
+
+            <nav>
+                <label for="influencer" class="influencer">Influencer</label>
+                <label for="company" class="company">Sponsor</label>
+
+                <div class="slider"></div>
+            </nav>
+            <section>
+                {% if messages %}
+                {% for message in messages %}
+                <div style="margin-top: 20px; text-align: center;" id="alert-div">
+                    <strong
+                        style="color: red;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">{{message}}</strong>
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="nav-box nav-box-1">
+                    <form action="{% url 'signUp' %}" method="post" autocomplete="on">
+                        {% csrf_token %}
+                        <div class="card card-body w-75 mt-3 m-auto">
+
+                            <div class="form-floating mb-3">
+                                <input type="text" id="inf_email" name="inf_email">
+                                <label for="inf_email">Email</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" id="inf_username" name="inf_username">
+                                <label for="inf_username">Username</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" id="inf_name" name="inf_name">
+                                <label for="inf_name">Full Name</label>
+                            </div>
+
+                            <div class="form-floating">
+                                <input type="password" id="inf_pass" name="inf_pass">
+                                <label for="inf_pass">Password</label>
+                            </div>
+                            <br>
+                            <div class="form-floating">
+                                <input type="password" id="inf_cpass" name="inf_cpass">
+                                <label for="inf_cpass">Confirm Password</label>
+                            </div>
+
+                            <div class=" my-3">
+                                <button class="btn btn-primary w-100 grey-bgcolor" style="border: none;">
+                                    Sign Up
+                                </button>
+                            </div>
+
+                            <div class="my-3 grey-color">
+                                Already have account? <a href="{% url 'login' %}" class="blue-color"
+                                    style="text-decoration: none;">login here</a>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+                <div class="nav-box nav-box-2">
+                    <form action="{% url 'companySignupHandle' %}" method="post" autocomplete="on">
+                        {% csrf_token %}
+                        <div class="card card-body w-75 mt-5 m-auto">
+
+
+                            <div class="form-floating mb-3">
+                                <input type="text" id="cmp_email" name="cmp_email">
+                                <label for="cmp_email">Company Email</label>
+                            </div>
+
+                            <div class="form-floating mb-3 comp_form">
+                                <input type="text" id="cmp_name" name="cmp_name">
+                                <label for="cmp_name">Company Name</label>
+                            </div>
+
+                            <div class="form-floating">
+                                <input type="password" id="cmp_pass" name="cmp_pass">
+                                <label for="cmp_pass">Password</label>
+                            </div>
+                            <br>
+                            <div class="form-floating">
+                                <input type="password" id="cmp_cpass" name="cmp_cpass">
+                                <label for="cmp_cpass">Confirm Password</label>
+                            </div>
+
+                            <div class=" my-3">
+                                <button class="btn btn-primary w-100 grey-bgcolor" style="border: none;">
+                                    Sign Up
+                                </button>
+                            </div>
+
+                            <div class="my-3 grey-color">
+                                Already have account? <a href="{% url 'login' %}" class="blue-color"
+                                    style="text-decoration: none;">login here</a>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+
+            </section>
+        </div>
+
+    </div>
+
+    <div class="item grey-bgcolor">
+        <div class="signUp-info light-color" style="text-align: center;">
+            <img src="{% static 'img/logo_gif.gif' %}"  alt="..." >
+            <h2 class="mt-5">WELCOME TO GROWSPONS!</h2>
+            <h6 class="my-1">
+                Increase Your Reach By Getting and providing Sponsors
+            </h6>
+            <p class="my-2">create account to getting started</p>
+        </div>
+    </div>
+</div>
+
+
+<script src="{% static  'js/signup.js' %}"></script>
+{% endblock content %}

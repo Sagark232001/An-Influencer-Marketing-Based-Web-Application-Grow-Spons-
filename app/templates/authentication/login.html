@@ -1,0 +1,85 @@
+{% extends "authentication/base.html" %}
+{% load static %}
+{% block title %}
+Login
+{% endblock title %}
+{% block content %}
+<style>
+    #login {
+        display: grid;
+        grid-template-columns: 6fr 4fr;
+    }
+
+    .item {
+        height: 100vh;
+    }
+
+    .card {
+        border: none;
+    }
+</style>
+
+<div id="login">
+    <div class="item">
+        <form action="" method="POST" class="login-form">
+            {% csrf_token %}
+            <div class="card card-body w-50 mt-5 m-auto">
+                <h2 class="mb-5 text-center grey-color">
+                    Login
+                </h2>
+                {% if messages %}
+                {% for message in messages %}
+                <div style="margin: 10px 20px;" id="alert-div">
+                    <strong style="color: red;font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">{{message}}</strong>
+                </div>
+                {% endfor %}
+                {% endif %}
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control my-0 py-0" name="username" id="username"
+                        placeholder="ab">
+                    <label for="username">Username</label>
+                </div>
+
+                <div class="form-floating">
+                    <input type="password" class="form-control my-0 py-0" name="password" id="password"
+                        placeholder="password">
+                    <label for="password">Password</label>
+                </div>
+
+                
+
+                <div class="my-3">
+                    <a href="{% url 'reset_password' %}" style="text-decoration: none;" class="grey-color">forgot password?</a>
+                </div>
+
+
+                <div class="my-3">
+                    <button class="btn btn-primary w-100 grey-bgcolor" style="border: none;">
+                        Login
+                    </button>
+                </div>
+                <div class="my-3">
+                    <div class="my-3 ">
+                        Dont have account? <a href="{% url 'signUp' %}" class="blue-color"
+                            style="text-decoration: none;">create here</a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="item" style="background-color:#222831">
+        <div class="login-info light-color" style="text-align: center;">
+            <img src="{% static 'img/logo_gif.gif' %}"  alt="..." >
+            <h2 class="mt-5">WELCOME TO GROWSPONS!</h2>
+            <p class="my-1">Increase Your Reach By Getting and providing Sponsors</p>
+            <p>lets get started!!</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    setTimeout(() => {
+    document.getElementById("alert-div").style.display = "none"
+}, 5000);
+</script>
+{% endblock content %}
