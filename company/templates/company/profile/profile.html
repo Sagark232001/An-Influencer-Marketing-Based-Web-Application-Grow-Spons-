@@ -1,0 +1,76 @@
+{% extends "base.html"%}
+{% load static %}
+{% block title%}Profile{% endblock%}
+{% block content %}
+{% include "company/profile/profile_nav.html" %}
+<style>
+    .container {
+        width: 60%;
+        position: absolute;
+        margin-left: 33%;
+    }
+
+    .grid-container {
+        display: grid;
+        grid-template-columns: 2fr 2fr;
+        margin-left: 26%;
+        margin-bottom: 13px;
+    }
+
+</style>
+
+<div class="container mt-5 pt-5">
+    <div class="card card-body shadow">
+        <h4 class="text-center mb-5">Personal Details</h4>
+        <div class="grid-container">
+            <div class="head-field">
+                <strong>Field</strong>
+            </div>
+            <div class="data-field">
+                {{influencer.field}}
+            </div>
+        </div>
+        <div class="grid-container">
+            <div class="head-field">
+                <strong>Date Of Birth</strong>
+            </div>
+            <div class="data-field">
+                {{influencer.dob}}
+            </div>
+        </div>
+        <div class="grid-container">
+            <div class="head-field">
+                <strong>Phone Number</strong>
+            </div>
+            <div class="data-field">
+                {{influencer.phone_no}}
+            </div>
+        </div>
+        <div class="grid-container">
+            <div class="head-field">
+                <strong>Bio</strong>
+            </div>
+            <div class="data-field">
+                {{influencer.bio}}
+            </div>
+        </div>
+        <div class="grid-container">
+            <div class="head-field">
+                <strong>Location</strong>
+            </div>
+            <div class="data-field">
+                {{influencer.location}}
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <div class="d-flex justify-content-center">
+            {% for s in socialmedia %}
+              <a href="{{s.url}}" style="text-decoration: none;" class="grey-color" target="_blank"><i class="fab fa-{{s.social_media}} me-3" style="font-size: 30px;"></i></a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock%}

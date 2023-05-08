@@ -1,0 +1,63 @@
+{% extends "company/base.html"%}
+{% load static %}
+{% load custom_tags %}
+{% block title%}Payment{% endblock%}
+{% block content %}
+<div class="d-flex justify-content-center">
+    <div class="conatiner w-50 mt-3">
+        <h4 class="text-center my-5">Payment Method</h4>
+    <div id="paypal-button-container"></div>
+    
+    </div>
+</div>
+
+<script src="https://www.paypal.com/sdk/js?client-id=AQLxBSjcW3vBELsx6M4A00KBvmC9QHyBiv5x0VUh_wrNGWXO1RyD8_5MmwfsF9C0xWWpDSFjXuZFnv44&currency=USD"></script>
+
+<script>
+    let total = '{{post.price}}'
+    let usdTotal = parseFloat(total).toFixed(2) * 0.014
+    // Render the PayPal button into #paypal-button-container
+    paypal.Buttons({
+
+        // Set up the transaction
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: usdTotal.toFixed(2)
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+                // Show a success message to the buyer
+                submitFormData()
+            });
+        }
+
+
+    }).render('#paypal-button-container');
+</script>
+
+<script>
+    const submitFormData = () => {
+        const url = "{% url 'payment' id %}"
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify({})
+
+        })
+        .then((data) => {
+                window.location.href = "{% url 'dashboardCmp' %}"
+        })
+
+    }
+</script>
+{% endblock%}

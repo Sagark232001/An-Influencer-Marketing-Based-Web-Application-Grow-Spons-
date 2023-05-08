@@ -1,0 +1,118 @@
+{% extends "authentication/base.html" %}
+{% load static %}
+{% block title %}
+Login
+{% endblock title %}
+{% block content %}
+
+<div class="container mt-5">
+
+    <style>
+        input,
+        select,
+        textarea {
+            background-color: #eee !important;
+        }
+
+        #profile-img-in:hover {
+            background-color: #cfcfcfce !important;
+        }
+    </style>
+
+    <div class="pt-5 mt-5" style="height: 100vh;">
+
+        <div class="card card-body w-50 grey-color mx-auto px-5" style="border: 2px groove #eee">
+            <form action="{% url 'creation' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div id="personal-details">
+                    <h3 class="text-center my-3">Personal Details</h3>
+                    <div class="mb-3" style="display: none;">
+                        {{form.sponsor_id}}
+                    </div>
+                    <div class="mb-3 form-floating">
+                        {{form.field}}
+                        <label for="id_field">Field of interest</label>
+                    </div>
+                    <div class=" mb-3">
+                        <!-- <input type="text" value="choose profile image" id="profile-img-in" readonly style="cursor: pointer;" onclick="fileTrig()"> -->
+                        <label for="id_profileImg">Profile Image</label>
+                        {{form.profile_img}}
+
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{form.pancard}}
+                        <label for="id_dob">Pancard Number</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{form.cin_no}}
+                        <label for="id_dob">CIN Number</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{form.phone_no}}
+                        <label for="id_phone_no">Phone Number</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{form.address}}
+                        <label for="id_location">Location</label>
+                    </div>
+
+                    <div class="mb-3 mt-5 d-flex justify-content-center">
+                        <button type="button" class="btn btn-outline-primary w-50" id="next">Next</button>
+                    </div>
+                </div>
+
+                <div id="social-media-details" style="display: none;">
+                    <h3 class="text-center my-3">Social Media Handles</h3>
+
+                    <div class="form-floating mb-3">
+                        {{form.website_link}}
+                        <label for="id_location">Company Website Link</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{form.facebook}}
+                        <label for="id_location">Facebook</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{form.instagram}}
+                        <label for="id_location">Instagram</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{form.twitter}}
+                        <label for="id_location">Twitter</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        {{form.other_link}}
+                        <label for="id_location">Other Link</label>
+                    </div>
+                    <div class="form-floating mb-3" style="display: none;">
+                        {{form.is_verified}}
+                        <label for="id_location">Other Link</label>
+                    </div>
+
+
+                    <div class="mb-3 mt-5 d-flex justify-content-center">
+                        <button type="button" class="btn btn-outline-primary w-25 me-3" id="prev">Back</button>
+                        <button type="submit" class="btn btn-outline-primary w-25">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+
+
+</div>
+
+<script>
+    $("input").addClass("form-control")
+    $("select").addClass("form-select")
+    $("textarea").addClass("form-control")
+    $("#id_sponsor_id").val("{{user.id}}")
+
+    $("#next").click(function () {
+        $("#personal-details").hide()
+        $("#social-media-details").show()
+    })
+</script>
+{% endblock %}

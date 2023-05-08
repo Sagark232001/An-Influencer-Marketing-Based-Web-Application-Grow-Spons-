@@ -1,0 +1,53 @@
+<style>
+    .side-left-bar {
+        height: 100vh;
+        position: fixed;
+        left: 0;
+        width: 27%;
+    }
+
+    .menu-list li:hover {
+        background-color: #ebebeb;
+    }
+
+    .menu-list li a {
+        text-decoration: none;
+        color: #393E46;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+    }
+
+    .menu-list li {
+        padding: 1rem;
+    }
+
+</style>
+<div class="card side-left-bar mt-5 pt-5">
+    <div class="card-body">
+        <div style="text-align: center;" class="mt-2">
+            <img src="{{influencer.profileImg.url}}" style="height: 150px; width:150px; border-radius: 50%;"
+                alt="...">
+        </div>
+        <div class="d-flex flex-column text-center">
+            <p class="mb-1 mt-2"><strong>@{{influencer.influencer_id.username}}</strong></p>
+            <p class="text-muted">{{influencer.field}}</p>
+        </div>
+        <hr class="my-3" style="color: #e2e2e2;">
+        <div class="menu">
+            <ul class="menu-list ps-0" style="list-style: none;">
+                <li>
+                    <a href="{% url 'profile_cmp' influencer.id %}">
+                        <i class="fas fa-user fa-lg"></i><strong>Personal Details</strong>
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'personal_post_cmp' influencer.id %}">
+                        <i class="far fa-images fa-lg"></i><strong>Posts</strong>
+                    </a>
+                </li>
+                
+            </ul>
+        </div>
+    </div>
+
+</div>

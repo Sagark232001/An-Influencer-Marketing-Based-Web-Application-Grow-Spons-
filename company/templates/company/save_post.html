@@ -1,0 +1,125 @@
+{% extends "company/base.html"%}
+{% load static %}
+{% load custom_tags %}
+{% block title%}Save Post{% endblock%}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/post.css' %}">
+
+
+
+<div class="upper-filter mt-5" style="text-align: center;">
+    <h5>Saved Posts</h5>
+</div>
+<div class="influencer-data">
+    <div class="row justify-content-center mt-3" id="filter_data_post">
+        {% for post in posts %}
+        <div class="col-4">
+
+            <div class="wrapper">
+                <div class="post" style="background: url('{{post.post.post_img.url}}');background-size: cover;">
+                    <div class="overlay">
+
+                        <form action="" method="post" id="save_post_form">
+                            {% csrf_token %}
+                            <span class="savepost">
+                                <button type="button" id="savepost-btn-{{post.post.id}}"
+                                    onclick="savePost('{{post.post.id}}')"><i class="fas fa-bookmark"></i></button>
+
+                                <button type="button" id="remove-saved-btn-{{post.post.id}}"
+                                    onclick="removeSavedPost('{{post.post.id}}')"
+                                    style="color: black; background-color: white;"><i class="fas fa-bookmark"></i>
+                                </button>
+                            </span>
+                        </form>
+
+
+                    </div>
+                    <a href="{% url 'viewinf' post.post.id %}" class="about d-flex flex-column"
+                        style="text-decoration: none; color: white;margin-top: -58px;text-align: center;">
+                        <strong>@{{post.post.influencer.influencer_id.username}}</strong> <span>{{post.post.title}} |
+                            {{post.post.field}}</span>
+
+                    </a>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        {%endfor%}
+    </div>
+</div>
+
+
+
+
+<script>
+    let saved_post_list = {{ saved_post_ls }};
+    let posts = {{ posts| post_id_list1 | safe}};
+    // console.log(saved_post_list)
+    $(document).ready(function () {
+        for (let index = 0; index < posts.length; index++) {
+            let element = posts[index];
+            if (saved_post_list.includes(element)) {
+                // saved
+                $("#savepost-btn-" + element).hide();
+                $("#remove-saved-btn-" + element).show();
+            } else {
+                // not saved
+                $("#savepost-btn-" + element).show();
+                $("#remove-saved-btn-" + element).hide();
+            }
+            $("#savepost-btn-" + element).click(function () {
+                $("#savepost-btn-" + element).hide();
+                $("#remove-saved-btn-" + element).show();
+            });
+            $("#remove-saved-btn-" + element).click(function () {
+                $("#savepost-btn-" + element).show();
+                $("#remove-saved-btn-" + element).hide();
+            });
+        }
+    });
+
+    let savePost = (p_id) => {
+        const save_post_details = {
+            post_id: p_id,
+        };
+
+        const url = "/save_post/";
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrftoken,
+            },
+            body: JSON.stringify({ save_post_details: save_post_details }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log();
+            });
+    };
+    let removeSavedPost = (p_id) => {
+        const save_post_details = {
+            post_id: p_id,
+        };
+
+        const url = "/remove_saved_post/";
+        fetch(url, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrftoken,
+            },
+            body: JSON.stringify({ save_post_details: save_post_details }),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log();
+            });
+    };
+</script>
+
+
+{% endblock%}
